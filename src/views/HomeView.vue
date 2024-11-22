@@ -7,7 +7,7 @@ import MessageBoard from '@/components/MessageBoard.vue'
     <div class="max-w-md mx-auto bg-white/90 backdrop-blur-sm">
       <div class="flex items-center gap-3 my-2">
         <img
-          src="/logo.jpeg"
+          src="/logo.webp"
           alt="QQ Icon"
           class="w-8"
         />
@@ -15,7 +15,7 @@ import MessageBoard from '@/components/MessageBoard.vue'
           QQ 留言板 ⭐️
         </div>
       </div>
-      <div class="border-t border-gray-200 pt-4">
+      <div class="border-t border-gray-200 pt-2">
         <MessageBoard />
       </div>
     </div>

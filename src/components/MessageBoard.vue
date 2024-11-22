@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { formatTimestamp } from '@/shared/data-helper';
+import { useMessageStore } from '@/use-message-store';
 import { ref, onMounted } from 'vue'
 
 const content = ref('')
@@ -7,106 +9,8 @@ const activeMessageId = ref<string | null>(null)
 const authorName = ref('')
 const isDialogOpen = ref(false)
 const showNameDialog = ref(false)
-const messages = ref([
-  {
-    id: '1',
-    author: {
-      name: '张三',
-    },
-    content: '今天天气真不错，适合出去玩！',
-    createdAt: '2024-03-20 10:30',
-    comments: [
-      {
-        id: '1-1',
-        author: {
-          name: '李四',
-        },
-        content: '确实是个好天气呢！',
-        createdAt: '2024-03-20 10:35'
-      },
-      {
-        id: '1-2',
-        author: {
-          name: '王五',
-        },
-        content: '周末一起去爬山吧！',
-        createdAt: '2024-03-20 10:40'
-      }
-    ]
-  },
-  {
-    id: '2',
-    author: {
-      name: '小明',
-    },
-    content: '刚学完Vue 3，感觉很有意思！',
-    createdAt: '2024-03-20 09:15',
-    comments: [
-      {
-        id: '2-1',
-        author: {
-          name: '小红',
-        },
-        content: '要不要一起学习交流呀？',
-        createdAt: '2024-03-20 09:20'
-      }
-    ]
-  },
-  {
-    id: '3',
-    author: {
-      name: '老王',
-    },
-    content: '推荐一个好看的电影：《闪电侠》',
-    createdAt: '2024-03-19 20:30',
-    comments: []
-  },
-  {
-    id: '4',
-    author: {
-      name: '小李',
-    },
-    content: '有没有人知道附近有什么好吃的餐厅？',
-    createdAt: '2024-03-19 18:45',
-    comments: [
-      {
-        id: '4-1',
-        author: {
-          name: '小张',
-        },
-        content: '西街的川菜馆不错！',
-        createdAt: '2024-03-19 18:50'
-      }
-    ]
-  },
-  {
-    id: '5',
-    author: {
-      name: '大山',
-    },
-    content: '周末有人一起打篮球吗？',
-    createdAt: '2024-03-19 16:20',
-    comments: [
-      {
-        id: '5-1',
-        author: {
-          name: '小河',
-        },
-        content: '我可以！在哪里打？',
-        createdAt: '2024-03-19 16:25'
-      },
-      {
-        id: '5-2',
-        author: {
-          name: '小海',
-        },
-        content: '算我一个！',
-        createdAt: '2024-03-19 16:30'
-      }
-    ]
-  }
-])
 
+const { messages } = useMessageStore()
 onMounted(() => {
   const savedName = localStorage.getItem('authorName')
   if (savedName) {
@@ -150,7 +54,6 @@ const createComment = ( ) => {
           <h3>发布新留言</h3>
           <button type="button" @click="isDialogOpen = false">✕</button>
         </div>
-
         <textarea
           v-model="content"
           placeholder="写下你的留言..."
@@ -186,11 +89,11 @@ const createComment = ( ) => {
     <div class="space-y-2">
       <div v-for="(message, index) in messages" :key="index" class="bg-gray-50 p-4 mb-2">
         <div class="flex gap-3 items-start">
-          <img src="/logo.jpeg" alt="QQ Icon" class="w-6 h-5" />
+          <img :src="message.author?.avatar" alt="QQ Icon" class="w-6 h-6 rounded-full" />
           <div>
             <div class="flex items-center gap-2 text-sm">
               <span class="font-medium text-gray-900">{{ message.author?.name }}</span>
-              <span class="text-xs text-gray-500">{{ message.createdAt }}</span>
+              <span class="text-xs text-gray-500">{{ formatTimestamp(message.createdAt) }}</span>
             </div>
             <p>{{ message.content }}</p>
           </div>
@@ -200,11 +103,11 @@ const createComment = ( ) => {
         <div class="ml-10">
           <div v-for="comment in message.comments" :key="comment.id"
             class="bg-white/80 rounded-lg p-2.5 flex gap-2 mt-2">
-            <img src="/logo.jpeg" alt="QQ Icon" class="w-6 h-5" />
+            <img :src="comment.author?.avatar" alt="QQ Icon" class="w-6 h-6 rounded-full" />
             <div>
               <div class="flex items-center gap-2 text-sm">
                 <span class="font-medium text-gray-900">{{ comment.author?.name }}</span>
-                <span class="text-xs text-gray-500">{{ comment.createdAt }}</span>
+                <span class="text-xs text-gray-500">{{ formatTimestamp(comment.createdAt) }}</span>
               </div>
               <p>{{ comment.content }}</p>
             </div>
