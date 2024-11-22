@@ -40,9 +40,9 @@ const createComment = ( ) => {
 <template>
   <div class="w-full mx-auto">
     <!-- 发布按钮 -->
-    <div class="flex justify-center mb-2" v-if="false">
+    <div class="flex justify-center mb-4" v-if="false">
       <button @click="isDialogOpen = true"
-        class="w-96 px-4 py-2.5 rounded-full bg-gray-900 text-white text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md">
+        class="w-96 px-4 py-2.5 rounded-full bg-amber-900 text-amber-50 text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md hover:bg-amber-800">
         发布新留言
       </button>
     </div>
@@ -86,47 +86,61 @@ const createComment = ( ) => {
     </dialog>
 
     <!-- 留言列表 -->
-    <div class="space-y-2">
-      <div v-for="(message, index) in messages" :key="index" class="bg-gray-50 p-4 mb-2">
+    <div class="space-y-3">
+      <div v-for="(message, index) in messages"
+           :key="index"
+           class="bg-gray-50/95 p-4 rounded-lg shadow-md border border-gray-200/80 transition-all hover:shadow-lg">
         <div class="flex gap-3 items-start">
-          <img :src="message.author?.avatar" alt="QQ Icon" class="w-6 h-6 rounded-full" />
-          <div>
-            <div class="flex items-center gap-2 text-sm">
-              <span class="font-medium text-gray-900">{{ message.author?.name }}</span>
-              <span class="text-xs text-gray-500">{{ formatTimestamp(message.createdAt) }}</span>
+          <img :src="message.author?.avatar"
+               alt="QQ Icon"
+               class="w-7 h-7 rounded-full ring-1 ring-gray-300 p-0.5" />
+          <div class="flex-1">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-sm font-medium text-gray-700">{{ message.author?.name }}</span>
+              <span class="text-[11px] text-gray-500">{{ formatTimestamp(message.createdAt) }}</span>
             </div>
-            <p>{{ message.content }}</p>
+            <p class="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">{{ message.content }}</p>
           </div>
         </div>
 
         <!-- 评论列表 -->
-        <div class="ml-10">
-          <div v-for="comment in message.comments" :key="comment.id"
-            class="bg-white/80 rounded-lg p-2.5 flex gap-2 mt-2">
-            <img :src="comment.author?.avatar" alt="QQ Icon" class="w-6 h-6 rounded-full" />
+        <div class="ml-10 mt-2">
+          <div v-for="comment in message.comments"
+               :key="comment.id"
+               class="bg-gray-100/90 rounded-lg p-2.5 flex gap-2 mt-2 border border-gray-200/50">
+            <img :src="comment.author?.avatar"
+                 alt="QQ Icon"
+                 class="w-5 h-5 rounded-full ring-1 ring-gray-300/50" />
             <div>
-              <div class="flex items-center gap-2 text-sm">
-                <span class="font-medium text-gray-900">{{ comment.author?.name }}</span>
-                <span class="text-xs text-gray-500">{{ formatTimestamp(comment.createdAt) }}</span>
+              <div class="flex items-center gap-2">
+                <span class="text-sm font-medium text-gray-700">{{ comment.author?.name }}</span>
+                <span class="text-[11px] text-gray-500">{{ formatTimestamp(comment.createdAt) }}</span>
               </div>
-              <p>{{ comment.content }}</p>
+              <p class="text-gray-600 text-sm mt-0.5">{{ comment.content }}</p>
             </div>
           </div>
 
           <!-- 评论表单 -->
-          <form v-if="activeMessageId === message.id&&false" @submit.prevent="createComment()"
-            class="flex gap-2 mt-2">
+          <form v-if="activeMessageId === message.id&&false"
+                @submit.prevent="createComment()"
+                class="flex gap-2 mt-2">
             <input
               v-model="commentContent"
               type="text"
               placeholder="写下你的评论..."
-              class="w-full border border-gray-200 rounded-full px-4 py-1.5 text-sm"
+              class="w-full border border-gray-200 rounded-full px-3 py-1.5 text-sm bg-white/90 placeholder-gray-400
+                     focus:outline-none focus:ring-1 focus:ring-gray-400/30 focus:border-gray-400"
             />
-            <button type="submit" class="px-3 py-1.5 bg-gray-900 text-white rounded-full text-sm">发送</button>
+            <button type="submit"
+                    class="px-3 py-1.5 bg-gray-700 text-gray-50 rounded-full text-sm hover:bg-gray-600
+                           transition-colors shadow-sm hover:shadow">
+              发送
+            </button>
           </form>
 
-          <button v-if="false" @click="activeMessageId = message.id"
-            class="text-xs text-gray-600 ml-2 mt-2">
+          <button v-if="false"
+                  @click="activeMessageId = message.id"
+                  class="text-xs text-gray-500 hover:text-gray-700 ml-2 mt-1.5">
             回复
           </button>
         </div>
