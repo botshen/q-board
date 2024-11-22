@@ -1,39 +1,13 @@
 # q-board
 
-This template should help get you started developing with Vue 3 in Vite.
+https://user.qzone.qq.com/1169545801/main#mine?res_uin=1169545801&ticket= 慢慢空间地址
 
-## Recommended IDE Setup
+me 空间表情待完善
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+终于明白 - 动力火车
+播放一直很安静 - 阿桑
+猜不透 - 丁当
 
-## Type Support for `.vue` Imports in TS
+下雪效果
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-pnpm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-pnpm dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-pnpm build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-pnpm lint
-```
+发留言功能-后端支持
