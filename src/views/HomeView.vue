@@ -5,7 +5,7 @@ import MessageBoard from '@/components/MessageBoard.vue'
 <template>
   <main>
     <div class="max-w-md mx-auto bg-white/90 backdrop-blur-sm">
-      <div class="flex items-center gap-3 my-2">
+      <div class="flex items-center gap-3 my-2 pl-2">
         <img
           src="/logo.webp"
           alt="QQ Icon"
