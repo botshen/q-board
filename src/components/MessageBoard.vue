@@ -134,22 +134,23 @@ const createComment = ( ) => {
 </script>
 
 <template>
-  <div class="message-board">
+  <div class="w-full mx-auto">
     <!-- 发布按钮 -->
-    <div class="publish-btn" v-if="false">
-      <button @click="isDialogOpen = true">
+    <div class="flex justify-center mb-2" v-if="false">
+      <button @click="isDialogOpen = true"
+        class="w-96 px-4 py-2.5 rounded-full bg-gray-900 text-white text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md">
         发布新留言
       </button>
     </div>
 
     <!-- 留言对话框 -->
-    <dialog v-if="isDialogOpen" class="message-dialog">
+    <dialog v-if="isDialogOpen" class="fixed inset-0 w-[400px] max-w-2xl m-auto rounded-2xl p-0 bg-transparent">
       <form @submit.prevent="createMessage">
         <div class="dialog-header">
           <h3>发布新留言</h3>
           <button type="button" @click="isDialogOpen = false">✕</button>
         </div>
-        
+
         <textarea
           v-model="content"
           placeholder="写下你的留言..."
@@ -182,42 +183,47 @@ const createComment = ( ) => {
     </dialog>
 
     <!-- 留言列表 -->
-    <div class="message-list">
-      <div v-for="(message, index) in messages" :key="index" class="message-item">
-        <div class="message-header">
-          <img src="/logo.jpeg" alt="QQ Icon" class="avatar" />
-          <div class="message-info">
-            <div class="message-meta">
-              <span class="author">{{ message.author?.name }}</span>
-              <span class="date">{{ message.createdAt }}</span>
+    <div class="space-y-2">
+      <div v-for="(message, index) in messages" :key="index" class="bg-gray-50 p-4 mb-2">
+        <div class="flex gap-3 items-start">
+          <img src="/logo.jpeg" alt="QQ Icon" class="w-6 h-5" />
+          <div>
+            <div class="flex items-center gap-2 text-sm">
+              <span class="font-medium text-gray-900">{{ message.author?.name }}</span>
+              <span class="text-xs text-gray-500">{{ message.createdAt }}</span>
             </div>
-            <p class="message-content">{{ message.content }}</p>
+            <p>{{ message.content }}</p>
           </div>
         </div>
 
         <!-- 评论列表 -->
-        <div class="comments">
-          <div v-for="comment in message.comments" :key="comment.id" class="comment">
-            <img src="/logo.jpeg" alt="QQ Icon" class="avatar" />
-            <div class="comment-info">
-              <div class="comment-meta">
-                <span class="author">{{ comment.author?.name }}</span>
-                <span class="date">{{ comment.createdAt }}</span>
+        <div class="ml-10">
+          <div v-for="comment in message.comments" :key="comment.id"
+            class="bg-white/80 rounded-lg p-2.5 flex gap-2 mt-2">
+            <img src="/logo.jpeg" alt="QQ Icon" class="w-6 h-5" />
+            <div>
+              <div class="flex items-center gap-2 text-sm">
+                <span class="font-medium text-gray-900">{{ comment.author?.name }}</span>
+                <span class="text-xs text-gray-500">{{ comment.createdAt }}</span>
               </div>
-              <p class="comment-content">{{ comment.content }}</p>
+              <p>{{ comment.content }}</p>
             </div>
           </div>
 
           <!-- 评论表单 -->
-          <form v-if="activeMessageId === message.id&&false" @submit.prevent="createComment( )" class="comment-form">
+          <form v-if="activeMessageId === message.id&&false" @submit.prevent="createComment()"
+            class="flex gap-2 mt-2">
             <input
               v-model="commentContent"
               type="text"
               placeholder="写下你的评论..."
+              class="w-full border border-gray-200 rounded-full px-4 py-1.5 text-sm"
             />
-            <button type="submit">发送</button>
+            <button type="submit" class="px-3 py-1.5 bg-gray-900 text-white rounded-full text-sm">发送</button>
           </form>
-          <button v-if="false" @click="activeMessageId = message.id" class="reply-btn">
+
+          <button v-if="false" @click="activeMessageId = message.id"
+            class="text-xs text-gray-600 ml-2 mt-2">
             回复
           </button>
         </div>
@@ -225,130 +231,3 @@ const createComment = ( ) => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.message-board {
-  width: 100%;
-  margin: 0 auto;
-}
-
-.publish-btn {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 0.5rem;
- }
-
-.publish-btn button {
-  width: 380px;
-  padding: 0.625rem 1rem;
-  border-radius: 9999px;
-  background-color: #111827;
-  color: white;
-  font-size: 0.875rem;
-  font-weight: 500;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  transition: all 0.2s;
-}
-
-.publish-btn button:hover {
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-.message-dialog,
-.name-dialog {
-  position: fixed;
-  inset: 0;
-  width: 400px;
-  max-width: 32rem;
-  margin: auto;
-  border-radius: 1rem;
-  padding: 0;
-  background: transparent;
-}
-
-.dialog-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-}
-
-.message-item {
-  background-color: #f9fafb;
-  padding: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-.message-header {
-  display: flex;
-  gap: 0.75rem;
-  align-items: flex-start;
-}
-
-.avatar {
-  width: 24px;
-  height: 20px;
-}
-
-.message-meta,
-.comment-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-}
-
-.author {
-  font-weight: 500;
-  color: #111827;
-}
-
-.date {
-  font-size: 0.75rem;
-  color: #6b7280;
-}
-
-.comments {
-  margin-left: 2.5rem;
-}
-
-.comment {
-  background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 0.5rem;
-  padding: 0.625rem;
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-}
-
-.comment-form {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-}
-
-.reply-btn {
-  font-size: 0.75rem;
-  color: #4b5563;
-  margin-left: 0.5rem;
-  margin-top: 0.5rem;
-}
-
-input,
-textarea {
-  width: 100%;
-  border: 1px solid #e5e7eb;
-  border-radius: 9999px;
-  padding: 0.375rem 1rem;
-  font-size: 0.875rem;
-}
-
-textarea {
-  min-height: 80px;
-  border-radius: 0.75rem;
-}
-
-button {
-  cursor: pointer;
-}
-</style>

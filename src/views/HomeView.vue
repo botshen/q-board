@@ -1,56 +1,24 @@
 <script setup lang="ts">
 import MessageBoard from '@/components/MessageBoard.vue'
- </script>
+</script>
 
 <template>
   <main>
-    <div class="container">
-      <div class="header">
+    <div class="max-w-md mx-auto bg-white/90 backdrop-blur-sm">
+      <div class="flex items-center gap-3 my-2">
         <img
           src="/logo.jpeg"
           alt="QQ Icon"
-          class="logo"
+          class="w-8"
         />
-        <h1 class="title">
+        <div class="text-2xl font-bold text-gray-900">
           QQ 留言板 ⭐️
-        </h1>
+        </div>
       </div>
-      <div class="divider">
+      <div class="border-t border-gray-200 pt-4">
         <MessageBoard />
       </div>
     </div>
   </main>
 </template>
-<style scoped>
-.container {
-  background-color: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(4px);
-  max-width: 28rem;  /* equivalent to max-w-md */
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin: 0.5rem 0;
-}
-
-.logo {
-  width: 32px;
- 
-}
-
-.title {
-  color: #111827;  /* text-gray-900 */
-  font-size: 1.5rem;  /* text-2xl */
-  font-weight: 700;  /* font-bold */
-}
-
-.divider {
-  border-top: 2px solid #E5E7EB;  /* border-gray-200 */
-  padding-top: 1rem;
-}
-</style>
 
