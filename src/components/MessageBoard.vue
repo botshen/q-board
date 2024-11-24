@@ -2,7 +2,7 @@
 import { formatTimestamp } from '@/shared/data-helper';
 import { useMessageStore } from '@/use-message-store';
 import { ref, onMounted } from 'vue'
-
+import axios from 'axios';
 const content = ref('')
 const commentContent = ref('')
 const activeMessageId = ref<string | null>(null)
@@ -11,12 +11,14 @@ const isDialogOpen = ref(false)
 const showNameDialog = ref(false)
 
 const { messages } = useMessageStore()
+messages.value = []
+const fetchMessages = async () => {
+  const res = await axios.get('http://localhost:3000/messages')
+  messages.value = res.data
+}
 onMounted(() => {
-  const savedName = localStorage.getItem('authorName')
-  if (savedName) {
-    authorName.value = savedName
-  }
-})
+  fetchMessages()
+ })
 
 const handleNameSubmit = (name: string) => {
   localStorage.setItem('authorName', name)
@@ -25,13 +27,11 @@ const handleNameSubmit = (name: string) => {
 }
 
 const createMessage = () => {
-  // TODO: 实现创建留言的逻辑
   isDialogOpen.value = false
   content.value = ''
 }
 
 const createComment = ( ) => {
-  // TODO: 实现创建评论的逻辑
   activeMessageId.value = null
   commentContent.value = ''
 }

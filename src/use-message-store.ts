@@ -8,8 +8,20 @@ const you = ref({
   name: '漫漫🐟',
   avatar: '/you.jpeg',
 })
-
-const messages = ref([
+type Comment = {
+  id: string
+  author: typeof me
+  content: string
+  createdAt: number
+}
+type Message = {
+  id: string
+  author: typeof you
+  content: string
+  createdAt: number
+  comments: Comment[]
+}
+const messages = ref<Message[]>([
   {
     id: '2',
     author: you.value,

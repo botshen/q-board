@@ -24,10 +24,13 @@ const toggleMusic = () => {
   isPlaying.value = !isPlaying.value
 }
 
+
+
 onMounted(() => {
   bgMusic.value = new Audio('/caibutou.mp3')
   bgMusic.value.loop = true
   bgMusic.value.volume = 0.5
+
 })
 </script>
 
