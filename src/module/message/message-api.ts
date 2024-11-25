@@ -32,5 +32,7 @@ export const useMessageStore = createCachedFn(() => {
     getMessage,
     gettingMessage,
     messages,
+    youAvatar,
+    meAvatar,
   }
 })

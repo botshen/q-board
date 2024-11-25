@@ -2,12 +2,19 @@
  import MessageBoard from '@/module/message/MessageBoard.vue'
 import { onMounted, ref } from 'vue'
 import { useAudioPlayer } from '@/hooks/useAudioPlayer'
+import { httpClient } from '@/shared/http-client';
+import { useMeStore } from '@/hooks/use-me-store';
+import { useMessageStore } from '@/module/message/message-api';
 
  const {
   isPlaying,
   initAudio,
   togglePlay
 } = useAudioPlayer('/caibutou.mp3')
+const { youAvatar, meAvatar } = useMessageStore()
+const { me } = useMeStore()
+const { getMessage } = useMessageStore()
+
 
 onMounted(() => {
   initAudio()
@@ -17,6 +24,19 @@ const messageDialog = ref<HTMLDialogElement>()
 
 const onAddMessage = () => {
   messageDialog.value?.showModal()
+}
+
+const messageContent = ref('')
+
+const onSubmitMessage = async () => {
+  console.log('submit')
+  await httpClient.post('/messages', {
+    content: messageContent.value,
+    name: me.value
+  })
+  messageContent.value = ''
+  messageDialog.value?.close()
+  getMessage()
 }
 </script>
 
@@ -100,14 +120,33 @@ const onAddMessage = () => {
     >
       <div class="w-[90vw] max-w-md">
         <div class="p-4">
-          <form method="dialog" class="space-y-4">
-            <div>
-              <textarea
-                rows="4"
-                placeholder="写下你想说的话..."
-                class=" p-2 w-full rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-              ></textarea>
+          <form method="dialog" class="space-y-4" @submit.prevent="onSubmitMessage">
+            <div class="flex gap-4 items-center justify-center">
+              <div
+                class="flex flex-col items-center gap-2 cursor-pointer"
+                :class="{'opacity-50': me !== '漫漫🐟'}"
+                @click="me = '漫漫🐟'"
+              >
+                <img :src="youAvatar" class="w-16 h-16 rounded-full border-2" :class="{'border-blue-500': me === '漫漫🐟'}" />
+                <span class="text-sm">漫漫🐟</span>
+              </div>
+              <div
+                class="flex flex-col items-center gap-2 cursor-pointer"
+                :class="{'opacity-50': me !== '李华'}"
+                @click="me = '李华'"
+              >
+                <img :src="meAvatar" class="w-16 h-16 rounded-full border-2" :class="{'border-blue-500': me === '李华'}" />
+                <span class="text-sm">李华</span>
+              </div>
             </div>
+
+            <textarea
+              rows="4"
+              placeholder="写下你想说的话..."
+              v-model="messageContent"
+              class="p-2 w-full rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+            ></textarea>
+
             <div class="flex justify-end gap-2">
               <button
                 type="button"
