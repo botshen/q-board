@@ -44,26 +44,23 @@ const onSubmitMessage = async () => {
     </div>
     <div class="bg-white/90 backdrop-blur-sm z-20 py-1 ">
       <div class="  mx-auto px-3  ">
-        <div class="flex items-center gap-3 pl-1">
+        <div class="flex items-center gap-1 pl-1">
           <img
             src="/logo.webp"
             alt="QQ Icon"
             class="w-4 h-4 shadow-sm"
           />
-          <div class="text-[16px] font-medium text-gray-700">
-            留言
-          </div>
-          Hello! <img @click="toggleMe" :src="me.avatar" class="w-6 h-6 rounded-full" />
+          好久不见 <img @click="toggleMe" :src="me.avatar" class="w-6 h-6 rounded-full" />
           <div class="flex items-center gap-2">
             <button
               @click="togglePlay"
-              class="relative flex items-center gap-2 px-2 py-1.5 rounded-full bg-blue-50 hover:bg-blue-100 border border-blue-200 shadow-sm hover:shadow transition-all duration-200 group"
+              class="relative flex items-center gap-2 px-2 py-1.5 rounded-full bg-blue-50 border border-blue-200 shadow-sm   transition-all duration-200 group"
             >
               <div class="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center">
                 <svg
                   v-if="!isPlaying"
                   xmlns="http://www.w3.org/2000/svg"
-                  class="w-3.5 h-3.5 text-white group-hover:scale-105 transition-transform duration-200"
+                  class="w-3.5 h-3.5 text-white   transition-transform duration-200"
                   viewBox="0 0 24 24"
                   fill="currentColor"
                 >
@@ -98,7 +95,7 @@ const onSubmitMessage = async () => {
               </div>
             </div>
           </div>
-          <div class="text-sm ml-auto text-gray-500 hover:text-gray-700" @click="onAddMessage">
+          <div class="text-sm ml-auto text-gray-700" @click="onAddMessage">
             留个言吧~~~
           </div>
         </div>
@@ -131,13 +128,13 @@ const onSubmitMessage = async () => {
               <button
                 type="button"
                 @click="messageDialog?.close()"
-                class="px-4 py-2 text-sm text-gray-700 hover:text-gray-900"
+                class="px-4 py-2 text-sm text-gray-900"
               >
                 取消
               </button>
               <button
                 type="submit"
-                class="px-4 py-2 text-sm text-white bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg hover:from-blue-600 hover:to-blue-700"
+                class="px-4 py-2 text-sm text-white bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg"
               >
                 发送
               </button>
