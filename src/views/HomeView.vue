@@ -1,6 +1,6 @@
 <script setup lang="ts">
  import MessageBoard from '@/module/message/MessageBoard.vue'
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useAudioPlayer } from '@/hooks/useAudioPlayer'
 
  const {
@@ -12,6 +12,12 @@ import { useAudioPlayer } from '@/hooks/useAudioPlayer'
 onMounted(() => {
   initAudio()
 })
+
+const messageDialog = ref<HTMLDialogElement>()
+
+const onAddMessage = () => {
+  messageDialog.value?.showModal()
+}
 </script>
 
 <template>
@@ -74,6 +80,9 @@ onMounted(() => {
               </div>
             </div>
           </div>
+          <div class="text-sm ml-auto text-gray-500 hover:text-gray-700" @click="onAddMessage">
+            留个言吧~~~
+          </div>
         </div>
       </div>
     </div>
@@ -84,6 +93,40 @@ onMounted(() => {
         </div>
       </div>
     </div>
+
+    <dialog
+      ref="messageDialog"
+      class="p-0 bg-white rounded-lg shadow-xl backdrop:bg-black/50 open:animate-fade-in"
+    >
+      <div class="w-[90vw] max-w-md">
+        <div class="p-4">
+          <form method="dialog" class="space-y-4">
+            <div>
+              <textarea
+                rows="4"
+                placeholder="写下你想说的话..."
+                class=" p-2 w-full rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+              ></textarea>
+            </div>
+            <div class="flex justify-end gap-2">
+              <button
+                type="button"
+                @click="messageDialog?.close()"
+                class="px-4 py-2 text-sm text-gray-700 hover:text-gray-900"
+              >
+                取消
+              </button>
+              <button
+                type="submit"
+                class="px-4 py-2 text-sm text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+              >
+                发送
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </dialog>
   </main>
 </template>
 
@@ -187,6 +230,19 @@ onMounted(() => {
 
 .button-initial-animation {
   animation: buttonPulse 2s infinite;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out;
 }
 </style>
 
