@@ -1,4 +1,4 @@
-USER='blog'
+USER='mangosteen'
 SERVER='1.94.239.72'
 DEPLOY_PATH="/home/$USER/app"
 NGINX_PATH="/var/www/html"
@@ -35,4 +35,8 @@ ssh $USER@$SERVER "cd $DEPLOY_PATH && \
     tar -xzf dist.tar.gz && \
     rm dist.tar.gz"
 
+title '使用docker启动nginx 前端端口是3001'
+ssh $USER@$SERVER "docker stop nginx || true && \
+    docker rm nginx || true && \
+    docker run -d --name nginx -p 3001:80 -v $DEPLOY_PATH/dist:/usr/share/nginx/html nginx"
 title '完成'

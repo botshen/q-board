@@ -134,7 +134,7 @@ const createComment = ( ) => {
           </form>
 
           <button v-if="false"
-                  @click="activeMessageId = message.id"
+
                   class="text-xs text-gray-500 hover:text-gray-700 ml-2 mt-1.5">
             回复
           </button>
