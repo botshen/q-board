@@ -11,10 +11,8 @@ import { useMessageStore } from '@/module/message/message-api';
   initAudio,
   togglePlay
 } = useAudioPlayer('/caibutou.mp3')
-const { youAvatar, meAvatar } = useMessageStore()
-const { me } = useMeStore()
+const { youAvatar, meAvatar, me, toggleMe } = useMeStore()
 const { getMessage } = useMessageStore()
-
 
 onMounted(() => {
   initAudio()
@@ -29,10 +27,9 @@ const onAddMessage = () => {
 const messageContent = ref('')
 
 const onSubmitMessage = async () => {
-  console.log('submit')
   await httpClient.post('/messages', {
     content: messageContent.value,
-    name: me.value
+    name: me.value.name,
   })
   messageContent.value = ''
   messageDialog.value?.close()
@@ -53,9 +50,10 @@ const onSubmitMessage = async () => {
             alt="QQ Icon"
             class="w-4 h-4 shadow-sm"
           />
-          <div class="text-[18px] font-medium text-gray-700">
-            QQ 留言板 ⭐️
+          <div class="text-[16px] font-medium text-gray-700">
+            留言
           </div>
+          Hello! <img @click="toggleMe" :src="me.avatar" class="w-6 h-6 rounded-full" />
           <div class="flex items-center gap-2">
             <button
               @click="togglePlay"
@@ -120,25 +118,7 @@ const onSubmitMessage = async () => {
     >
       <div class="w-[90vw] max-w-md">
         <div class="p-4">
-          <form method="dialog" class="space-y-4" @submit.prevent="onSubmitMessage">
-            <div class="flex gap-4 items-center justify-center">
-              <div
-                class="flex flex-col items-center gap-2 cursor-pointer"
-                :class="{'opacity-50': me !== '漫漫🐟'}"
-                @click="me = '漫漫🐟'"
-              >
-                <img :src="youAvatar" class="w-16 h-16 rounded-full border-2" :class="{'border-blue-500': me === '漫漫🐟'}" />
-                <span class="text-sm">漫漫🐟</span>
-              </div>
-              <div
-                class="flex flex-col items-center gap-2 cursor-pointer"
-                :class="{'opacity-50': me !== '李华'}"
-                @click="me = '李华'"
-              >
-                <img :src="meAvatar" class="w-16 h-16 rounded-full border-2" :class="{'border-blue-500': me === '李华'}" />
-                <span class="text-sm">李华</span>
-              </div>
-            </div>
+          <form method="dialog" class="space-y-2" @submit.prevent="onSubmitMessage">
 
             <textarea
               rows="4"
@@ -157,7 +137,7 @@ const onSubmitMessage = async () => {
               </button>
               <button
                 type="submit"
-                class="px-4 py-2 text-sm text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+                class="px-4 py-2 text-sm text-white bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg hover:from-blue-600 hover:to-blue-700"
               >
                 发送
               </button>

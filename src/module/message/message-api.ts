@@ -2,14 +2,14 @@ import { createCachedFn } from '@/shared/data-helper'
 import { ref } from 'vue'
 import type { Message } from './message-types'
 import { httpClient } from '@/shared/http-client'
-const meAvatar = ref('/me.jpeg')
+import { useMeStore } from '@/hooks/use-me-store'
 
-const youAvatar = ref('/you.jpeg')
 export const messageApi = {
   list: () => {
     return httpClient.get<Message[]>('/messages')
   },
 }
+const { meAvatar, youAvatar } = useMeStore()
 
 export const useMessageStore = createCachedFn(() => {
   const messages = ref<Message[]>([])
@@ -32,7 +32,5 @@ export const useMessageStore = createCachedFn(() => {
     getMessage,
     gettingMessage,
     messages,
-    youAvatar,
-    meAvatar,
   }
 })
