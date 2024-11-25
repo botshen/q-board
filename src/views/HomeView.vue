@@ -25,8 +25,8 @@ const onAddMessage = () => {
 }
 
 const messageContent = ref('')
-
-const onSubmitMessage = async () => {
+ const onSubmitMessage = async () => {
+  if (!messageContent.value) return
   await httpClient.post('/messages', {
     content: messageContent.value,
     name: me.value.name,
@@ -42,62 +42,53 @@ const onSubmitMessage = async () => {
     <div class="snowflakes" aria-hidden="true">
       <div v-for="n in 10" :key="n" class="snowflake">❄</div>
     </div>
-    <div class="bg-white/90 backdrop-blur-sm z-20 py-1 ">
-      <div class="  mx-auto px-3  ">
-        <div class="flex items-center gap-1 pl-1">
-          <img
-            src="/logo.webp"
-            alt="QQ Icon"
-            class="w-4 h-4 shadow-sm"
-          />
-          好久不见 <img @click="toggleMe" :src="me.avatar" class="w-6 h-6 rounded-full" />
-          <div class="flex items-center gap-2">
-            <button
-              @click="togglePlay"
-              class="relative flex items-center gap-2 px-2 py-1.5 rounded-full bg-blue-50 border border-blue-200 shadow-sm   transition-all duration-200 group"
-            >
-              <div class="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center">
-                <svg
-                  v-if="!isPlaying"
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="w-3.5 h-3.5 text-white   transition-transform duration-200"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18c.62-.39.62-1.29 0-1.69L9.54 5.98C8.87 5.55 8 6.03 8 6.82z"/>
-                </svg>
-                <svg
-                  v-else
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="w-3.5 h-3.5 text-white"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M8 19c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2s-2 .9-2 2v10c0 1.1.9 2 2 2zm6-12v10c0 1.1.9 2 2 2s2-.9 2-2V7c0-1.1-.9-2-2-2s-2 .9-2 2z"/>
-                </svg>
-              </div>
-              <span
+    <div class="bg-white/90 backdrop-blur-sm z-20 py-1">
+      <div class="mx-auto px-3">
+        <div class="flex items-center gap-2">
+          <div class="flex items-center gap-1">
+            <img
+              src="/logo.webp"
+              alt="QQ Icon"
+              class="w-4 h-4 shadow-sm"
+            />
+            <span>好久不见</span>
+            <img @click="toggleMe" :src="me.avatar" class="w-6 h-6 rounded-full" />
+          </div>
+          <button
+            @click="onAddMessage"
+            class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white text-sm shadow-sm hover:shadow-md transition-all"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+            </svg>
+            写留言
+          </button>
+          <button
+            @click="togglePlay"
+            class="relative ml-auto flex items-center gap-1 px-1.5 py-1 rounded-full bg-blue-50 border border-blue-200 shadow-sm transition-all duration-200"
+            :class="{ 'animate-button-pulse': !isPlaying }"
+          >
+            <div class="w-3.5 h-3.5 rounded-full bg-blue-500 flex items-center justify-center">
+              <svg
                 v-if="!isPlaying"
-                class="absolute -right-1 -top-1 w-3 h-3 bg-blue-500 rounded-full animate-ping"
-              ></span>
-              <span
-                v-if="!isPlaying"
-                class="absolute -right-1 -top-1 w-3 h-3 bg-blue-500 rounded-full"
-              ></span>
-            </button>
-
-            <div v-if="isPlaying" class="music-waves-container overflow-visible">
-              <div class="music-waves">
-                <span class="bg-blue-500"></span>
-                <span class="bg-blue-500"></span>
-                <span class="bg-blue-500"></span>
-                <span class="bg-blue-500"></span>
-              </div>
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-3 h-3 text-white transition-transform duration-200"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18c.62-.39.62-1.29 0-1.69L9.54 5.98C8.87 5.55 8 6.03 8 6.82z"/>
+              </svg>
+              <svg
+                v-else
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-3.5 h-3.5 text-white"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M8 19c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2s-2 .9-2 2v10c0 1.1.9 2 2 2zm6-12v10c0 1.1.9 2 2 2s2-.9 2-2V7c0-1.1-.9-2-2-2s-2 .9-2 2z"/>
+              </svg>
             </div>
-          </div>
-          <div class="text-sm ml-auto text-gray-700" @click="onAddMessage">
-            留个言吧~~~
-          </div>
+          </button>
         </div>
       </div>
     </div>
@@ -111,32 +102,30 @@ const onSubmitMessage = async () => {
 
     <dialog
       ref="messageDialog"
-      class="p-0 bg-white rounded-lg shadow-xl backdrop:bg-black/50 open:animate-fade-in"
+      class="p-0 bg-white rounded-lg shadow-xl backdrop:bg-black/50 open:animate-fade-in fixed top-0 mt-4"
     >
       <div class="w-[90vw] max-w-md">
         <div class="p-4">
           <form method="dialog" class="space-y-2" @submit.prevent="onSubmitMessage">
-
             <textarea
               rows="4"
               placeholder="写下你想说的话..."
               v-model="messageContent"
               class="p-2 w-full rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-blue-500"
             ></textarea>
-
             <div class="flex justify-end gap-2">
               <button
                 type="button"
                 @click="messageDialog?.close()"
                 class="px-4 py-2 text-sm text-gray-900"
               >
-                取消
+                再想想
               </button>
               <button
                 type="submit"
                 class="px-4 py-2 text-sm text-white bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg"
               >
-                发送
+                留一句
               </button>
             </div>
           </form>
@@ -229,14 +218,14 @@ const onSubmitMessage = async () => {
   }
 }
 
-@keyframes buttonPulse {
+@keyframes button-pulse {
   0% {
     transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.3);
   }
   70% {
-    transform: scale(1.02);
-    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+    transform: scale(1.05);
+    box-shadow: 0 0 0 8px rgba(59, 130, 246, 0);
   }
   100% {
     transform: scale(1);
@@ -244,12 +233,16 @@ const onSubmitMessage = async () => {
   }
 }
 
-.button-initial-animation {
-  animation: buttonPulse 2s infinite;
+.animate-button-pulse {
+  animation: button-pulse 2s infinite;
 }
 
 dialog::backdrop {
   background: rgba(0, 0, 0, 0.5);
+}
+
+dialog {
+  margin-top: 1rem;
 }
 
 @keyframes fade-in {
