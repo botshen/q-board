@@ -35,81 +35,90 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="relative min-h-screen overflow-hidden bg-gradient-to-b from-gray-100 to-gray-200">
+  <main class="h-screen flex flex-col overflow-hidden bg-gradient-to-b from-gray-100 to-gray-200">
     <div class="snowflakes" aria-hidden="true">
       <div v-for="n in 10" :key="n" class="snowflake">❄</div>
     </div>
 
-    <div class="max-w-2xl mx-auto bg-white/90 backdrop-blur-sm relative z-10 p-3 rounded-lg rounded-t-none shadow-lg">
-      <div class="flex items-center gap-3 mb-2 pl-1">
-        <img
-          src="/logo.webp"
-          alt="QQ Icon"
-          class="w-8 h-8 rounded-lg shadow-sm"
-        />
-        <div class="text-xl font-medium text-gray-700">
-          QQ 留言板 ⭐️
-        </div>
+    <div class="bg-white/90 backdrop-blur-sm z-20 py-1 ">
+      <div class="  mx-auto px-3  ">
+        <div class="flex items-center gap-3 pl-1">
+          <img
+            src="/logo.webp"
+            alt="QQ Icon"
+            class="w-4 h-4 shadow-sm"
+          />
+          <div class="text-[18px] font-medium text-gray-700">
+            QQ 留言板 ⭐️
+          </div>
 
-        <div class="flex items-center gap-2">
-          <button
-            class="relative flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 hover:bg-blue-100 border border-blue-200 shadow-sm hover:shadow transition-all duration-200 group"
-            @click="toggleMusic"
-          >
-            <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center">
+          <div class="flex items-center gap-2">
+            <button
+              class="relative flex items-center gap-2 px-2 py-1.5 rounded-full bg-blue-50 hover:bg-blue-100 border border-blue-200 shadow-sm hover:shadow transition-all duration-200 group"
+              @click="toggleMusic"
+            >
+              <div class="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center">
+                <svg
+                  v-if="!isPlaying"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-3.5 h-3.5 text-white group-hover:scale-105 transition-transform duration-200"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18c.62-.39.62-1.29 0-1.69L9.54 5.98C8.87 5.55 8 6.03 8 6.82z"/>
+                </svg>
+                <svg
+                  v-else
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-3.5 h-3.5 text-white"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M8 19c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2s-2 .9-2 2v10c0 1.1.9 2 2 2zm6-12v10c0 1.1.9 2 2 2s2-.9 2-2V7c0-1.1-.9-2-2-2s-2 .9-2 2z"/>
+                </svg>
+              </div>
+
               <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-4 h-4 text-blue-600"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+              </svg>
+
+              <span
                 v-if="!isPlaying"
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-3.5 h-3.5 text-white group-hover:scale-105 transition-transform duration-200"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path d="M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18c.62-.39.62-1.29 0-1.69L9.54 5.98C8.87 5.55 8 6.03 8 6.82z"/>
-              </svg>
-              <svg
-                v-else
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-3.5 h-3.5 text-white"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path d="M8 19c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2s-2 .9-2 2v10c0 1.1.9 2 2 2zm6-12v10c0 1.1.9 2 2 2s2-.9 2-2V7c0-1.1-.9-2-2-2s-2 .9-2 2z"/>
-              </svg>
-            </div>
+                class="absolute -right-1 -top-1 w-3 h-3 bg-blue-500 rounded-full animate-ping"
+              ></span>
+              <span
+                v-if="!isPlaying"
+                class="absolute -right-1 -top-1 w-3 h-3 bg-blue-500 rounded-full"
+              ></span>
+            </button>
 
-            <span v-if="!isPlaying" class="text-sm text-blue-600 whitespace-nowrap">
-             背景音乐
-            </span>
-            <span v-else class="text-sm text-blue-600 whitespace-nowrap">
-              正在播放
-            </span>
-
-            <span
-              v-if="!isPlaying"
-              class="absolute -right-1 -top-1 w-3 h-3 bg-blue-500 rounded-full animate-ping"
-            ></span>
-            <span
-              v-if="!isPlaying"
-              class="absolute -right-1 -top-1 w-3 h-3 bg-blue-500 rounded-full"
-            ></span>
-          </button>
-
-          <div v-if="isPlaying" class="music-waves-container overflow-visible">
-            <div class="music-waves">
-              <span class="bg-blue-500"></span>
-              <span class="bg-blue-500"></span>
-              <span class="bg-blue-500"></span>
-              <span class="bg-blue-500"></span>
+            <div v-if="isPlaying" class="music-waves-container overflow-visible">
+              <div class="music-waves">
+                <span class="bg-blue-500"></span>
+                <span class="bg-blue-500"></span>
+                <span class="bg-blue-500"></span>
+                <span class="bg-blue-500"></span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="text-sm ml-auto text-gray-500 hover:text-gray-700" @click="onAbout">
-          关于
+          <div class="text-sm ml-auto text-gray-500 hover:text-gray-700" @click="onAbout">
+            关于
+          </div>
         </div>
       </div>
-      <div class="border-t border-gray-200/50 pt-3">
-        <MessageBoard   />
+    </div>
+
+    <div class="flex-1 overflow-y-auto">
+      <div class="mx-auto bg-white/90 backdrop-blur-sm relative z-10 p-2 pt-0 shadow-lg mt-0">
+        <div class="border-t border-gray-200/50 pt-2">
+          <MessageBoard />
+        </div>
       </div>
     </div>
   </main>
