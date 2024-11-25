@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import MessageBoard from '@/components/MessageBoard.vue'
+import MessageBoard from '@/moudule/messge/MessageBoard.vue'
 import { useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
 
@@ -109,7 +109,7 @@ onMounted(() => {
         </div>
       </div>
       <div class="border-t border-gray-200/50 pt-3">
-        <MessageBoard />
+        <MessageBoard   />
       </div>
     </div>
   </main>

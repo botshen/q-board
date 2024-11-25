@@ -1,23 +1,18 @@
 <script setup lang="ts">
 import { formatTimestamp } from '@/shared/data-helper';
-import { useMessageStore } from '@/use-message-store';
+import { useMessageStore } from '@/moudule/messge/message-api';
 import { ref, onMounted } from 'vue'
-import axios from 'axios';
+
 const content = ref('')
 const commentContent = ref('')
 const activeMessageId = ref<string | null>(null)
 const authorName = ref('')
 const isDialogOpen = ref(false)
 const showNameDialog = ref(false)
+const { messages, getMessage } = useMessageStore()
 
-const { messages } = useMessageStore()
-messages.value = []
-const fetchMessages = async () => {
-  const res = await axios.get('http://localhost:3000/messages')
-  messages.value = res.data
-}
 onMounted(() => {
-  fetchMessages()
+  getMessage()
  })
 
 const handleNameSubmit = (name: string) => {
