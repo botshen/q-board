@@ -1,36 +1,16 @@
 <script setup lang="ts">
-import MessageBoard from '@/moudule/messge/MessageBoard.vue'
-import { useRouter } from 'vue-router'
-import { ref, onMounted } from 'vue'
+ import MessageBoard from '@/module/message/MessageBoard.vue'
+import { onMounted } from 'vue'
+import { useAudioPlayer } from '@/hooks/useAudioPlayer'
 
-const router = useRouter()
-const onAbout = () => {
-  router.push('/about')
-}
-
-const bgMusic = ref<HTMLAudioElement>()
-const isPlaying = ref(false)
-const isFirstVisit = ref(true)
-
-const toggleMusic = () => {
-  if (!bgMusic.value) return
-
-  if (isPlaying.value) {
-    bgMusic.value.pause()
-  } else {
-    bgMusic.value.play()
-    isFirstVisit.value = false
-  }
-  isPlaying.value = !isPlaying.value
-}
-
-
+ const {
+  isPlaying,
+  initAudio,
+  togglePlay
+} = useAudioPlayer('/caibutou.mp3')
 
 onMounted(() => {
-  bgMusic.value = new Audio('/caibutou.mp3')
-  bgMusic.value.loop = true
-  bgMusic.value.volume = 0.5
-
+  initAudio()
 })
 </script>
 
@@ -39,7 +19,6 @@ onMounted(() => {
     <div class="snowflakes" aria-hidden="true">
       <div v-for="n in 10" :key="n" class="snowflake">❄</div>
     </div>
-
     <div class="bg-white/90 backdrop-blur-sm z-20 py-1 ">
       <div class="  mx-auto px-3  ">
         <div class="flex items-center gap-3 pl-1">
@@ -51,11 +30,10 @@ onMounted(() => {
           <div class="text-[18px] font-medium text-gray-700">
             QQ 留言板 ⭐️
           </div>
-
           <div class="flex items-center gap-2">
             <button
+              @click="togglePlay"
               class="relative flex items-center gap-2 px-2 py-1.5 rounded-full bg-blue-50 hover:bg-blue-100 border border-blue-200 shadow-sm hover:shadow transition-all duration-200 group"
-              @click="toggleMusic"
             >
               <div class="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center">
                 <svg
@@ -77,16 +55,6 @@ onMounted(() => {
                   <path d="M8 19c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2s-2 .9-2 2v10c0 1.1.9 2 2 2zm6-12v10c0 1.1.9 2 2 2s2-.9 2-2V7c0-1.1-.9-2-2-2s-2 .9-2 2z"/>
                 </svg>
               </div>
-
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-4 h-4 text-blue-600"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
-              </svg>
-
               <span
                 v-if="!isPlaying"
                 class="absolute -right-1 -top-1 w-3 h-3 bg-blue-500 rounded-full animate-ping"
@@ -106,14 +74,9 @@ onMounted(() => {
               </div>
             </div>
           </div>
-
-          <div class="text-sm ml-auto text-gray-500 hover:text-gray-700" @click="onAbout">
-            关于
-          </div>
         </div>
       </div>
     </div>
-
     <div class="flex-1 overflow-y-auto">
       <div class="mx-auto bg-white/90 backdrop-blur-sm relative z-10 p-2 pt-0 shadow-lg mt-0">
         <div class="border-t border-gray-200/50 pt-2">

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { formatTimestamp } from '@/shared/data-helper';
-import { useMessageStore } from '@/moudule/messge/message-api';
+import { useMessageStore } from '@/module/message/message-api';
 import { ref, onMounted } from 'vue'
 
 const content = ref('')
