@@ -11,7 +11,7 @@ import { useMessageStore } from '@/module/message/message-api';
   initAudio,
   togglePlay
 } = useAudioPlayer('/caibutou.mp3')
-const { youAvatar, meAvatar, me, toggleMe } = useMeStore()
+const { me, toggleMe } = useMeStore()
 const { getMessage } = useMessageStore()
 
 onMounted(() => {
