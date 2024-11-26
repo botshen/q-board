@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { formatTimestamp } from '@/shared/data-helper';
 import { useMessageStore } from '@/module/message/message-api';
+import { useMeStore } from '@/hooks/use-me-store';
 import { ref, onMounted } from 'vue'
+import { httpClient } from '@/shared/http-client';
 
 const content = ref('')
 const commentContent = ref('')
 const activeMessageId = ref<string | null>(null)
-const authorName = ref('')
-const isDialogOpen = ref(false)
+ const isDialogOpen = ref(false)
 const showNameDialog = ref(false)
+const {me} = useMeStore()
 const { messages, getMessage } = useMessageStore()
 
 onMounted(() => {
@@ -16,9 +18,7 @@ onMounted(() => {
  })
 
 const handleNameSubmit = (name: string) => {
-  localStorage.setItem('authorName', name)
-  authorName.value = name
-  showNameDialog.value = false
+   showNameDialog.value = false
 }
 
 const createMessage = () => {
@@ -26,9 +26,20 @@ const createMessage = () => {
   content.value = ''
 }
 
-const createComment = ( ) => {
+const createComment = async (messageId: string) => {
   activeMessageId.value = null
+  await httpClient.post(`/messages/${messageId}/comments`, {
+    comment: {
+      content: commentContent.value,
+    },
+    name: me.value.name,
+  })
+  getMessage()
   commentContent.value = ''
+}
+
+const toggleComment = (messageId: string) => {
+  activeMessageId.value = activeMessageId.value === messageId ? null : messageId
 }
 </script>
 
@@ -59,26 +70,6 @@ const createComment = ( ) => {
       </form>
     </dialog>
 
-    <!-- 名字输入对话框 -->
-    <dialog v-if="showNameDialog" class="name-dialog">
-      <form @submit.prevent="(e: Event) => {
-        const form = e.target as HTMLFormElement;
-        const input = form.querySelector('input');
-        if (input) {
-          handleNameSubmit(input.value);
-        }
-      }">
-        <div class="dialog-header">
-          <h3>请输入您的名字</h3>
-          <button type="button" @click="showNameDialog = false">✕</button>
-        </div>
-        <input
-          type="text"
-          placeholder="您的名字"
-        />
-        <button type="submit">确认</button>
-      </form>
-    </dialog>
 
     <!-- 留言列表 -->
     <div class="space-y-3">
@@ -99,10 +90,40 @@ const createComment = ( ) => {
         </div>
 
         <!-- 评论列表 -->
-        <div class="ml-10 mt-2">
+        <div class="ml-10 mt-2 space-y-2">
+          <!-- 评论按钮移到这里，在评论列表前面 -->
+          <button @click="toggleComment(message.id)"
+                  class="text-xs text-gray-500 hover:text-gray-700 flex items-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+            评论
+          </button>
+
+          <!-- 评论输入框 -->
+          <form v-if="activeMessageId === message.id"
+                @submit.prevent="createComment(message.id)"
+                class="mb-2">
+            <div class="flex gap-2">
+              <input
+                v-model="commentContent"
+                type="text"
+                placeholder="写下你的评论..."
+                class="flex-1 border border-gray-200 rounded-full px-4 py-2 text-sm bg-white/90 placeholder-gray-400
+                       focus:outline-none focus:ring-1 focus:ring-gray-400/30 focus:border-gray-400"
+              />
+              <button type="submit"
+                      class="px-4 py-2 bg-amber-900 text-amber-50 rounded-full text-sm hover:bg-amber-800
+                             transition-colors shadow-sm hover:shadow">
+                发送
+              </button>
+            </div>
+          </form>
+
+          <!-- 评论列表移到按钮和输入框后面 -->
           <div v-for="comment in message.comments"
                :key="comment.id"
-               class="bg-gray-100/90 rounded-lg p-2.5 flex gap-2 mt-2 border border-gray-200/50">
+               class="bg-gray-100/90 rounded-lg p-2.5 flex gap-2 border border-gray-200/50">
             <img :src="comment.author?.avatar"
                  alt="QQ Icon"
                  class="w-5 h-5 rounded-full ring-1 ring-gray-300/50" />
@@ -114,30 +135,6 @@ const createComment = ( ) => {
               <p class="text-gray-600 text-sm mt-0.5">{{ comment.content }}</p>
             </div>
           </div>
-
-          <!-- 评论表单 -->
-          <form v-if="activeMessageId === message.id&&false"
-                @submit.prevent="createComment()"
-                class="flex gap-2 mt-2">
-            <input
-              v-model="commentContent"
-              type="text"
-              placeholder="写下你的评论..."
-              class="w-full border border-gray-200 rounded-full px-3 py-1.5 text-sm bg-white/90 placeholder-gray-400
-                     focus:outline-none focus:ring-1 focus:ring-gray-400/30 focus:border-gray-400"
-            />
-            <button type="submit"
-                    class="px-3 py-1.5 bg-gray-700 text-gray-50 rounded-full text-sm hover:bg-gray-600
-                           transition-colors shadow-sm hover:shadow">
-              发送
-            </button>
-          </form>
-
-          <button v-if="false"
-
-                  class="text-xs text-gray-500 hover:text-gray-700 ml-2 mt-1.5">
-            回复
-          </button>
         </div>
       </div>
     </div>
