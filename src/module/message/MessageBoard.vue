@@ -7,9 +7,8 @@ import { httpClient } from '@/shared/http-client';
 
 const content = ref('')
 const commentContent = ref('')
-const activeMessageId = ref<string | null>(null)
- const isDialogOpen = ref(false)
-const showNameDialog = ref(false)
+const activeMessageId = ref<string | null | number>(null)
+const isDialogOpen = ref(false)
 const {me} = useMeStore()
 const { messages, getMessage } = useMessageStore()
 
@@ -17,16 +16,14 @@ onMounted(() => {
   getMessage()
  })
 
-const handleNameSubmit = (name: string) => {
-   showNameDialog.value = false
-}
+
 
 const createMessage = () => {
   isDialogOpen.value = false
   content.value = ''
 }
 
-const createComment = async (messageId: string) => {
+const createComment = async (messageId: string | number) => {
   activeMessageId.value = null
   await httpClient.post(`/messages/${messageId}/comments`, {
     comment: {
@@ -38,7 +35,7 @@ const createComment = async (messageId: string) => {
   commentContent.value = ''
 }
 
-const toggleComment = (messageId: string) => {
+const toggleComment = (messageId: string | number) => {
   activeMessageId.value = activeMessageId.value === messageId ? null : messageId
 }
 </script>
