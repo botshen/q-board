@@ -12,9 +12,40 @@ const isDialogOpen = ref(false)
 const {me} = useMeStore()
 const { messages, getMessage } = useMessageStore()
 
+// 在文件开头导入所有表情图片
+const emojiModules = import.meta.glob([
+  '/src/assets/qq-imgs/*.webp',
+  '/src/assets/qq-imgs/*.gif',
+  '/src/assets/qq-imgs/*.png'
+], { eager: true })
+
+console.log('emojiModules', Object.entries(emojiModules).map(([path, module]) => {
+  const match = path.match(/\/([^/]+)\.(webp|gif|png)$/)
+  if (!match) return null
+  return [match[1], (module as any).default]
+}).filter(Boolean))
+
+// 添加类型声明
+const emojiMap = new Map<string, string>(
+  Object.entries(emojiModules)
+    .map(([path, module]): [string, string] | null => {  // 明确指定返回类型
+      const match = path.match(/\/([^/]+?(?:@2x)?)\.(webp|gif|png)$/)
+      if (!match) return null
+      return [match[1].replace('@2x', ''), (module as any).default]
+    })
+    .filter((item): item is [string, string] => item !== null)  // 类型守卫
+)
+
+// 修改获取表情图片路径的方法
+const getEmojiSrc = (code: string) => {
+  if (!code) return ''
+  // 尝试直接获取或添加 @2x 后缀获取
+  return emojiMap.get(code) || emojiMap.get(`${code}@2x`)
+}
+
 onMounted(() => {
   getMessage()
- })
+})
 
 
 
@@ -37,6 +68,39 @@ const createComment = async (messageId: string | number) => {
 
 const toggleComment = (messageId: string | number) => {
   activeMessageId.value = activeMessageId.value === messageId ? null : messageId
+}
+
+const parseContent = (content: string) => {
+  const regex = /\[em\](.*?)\[\/em\]/g
+  const parts = []
+  let lastIndex = 0
+  let match
+
+  while ((match = regex.exec(content)) !== null) {
+    // 添加表情符号前的文本
+    if (match.index > lastIndex) {
+      parts.push({
+        type: 'text',
+        text: content.slice(lastIndex, match.index)
+      })
+    }
+    // 添加表情符号，移除可能存在的 @2x 后缀
+    parts.push({
+      type: 'emoji',
+      code: match[1].replace('@2x', '')
+    })
+    lastIndex = regex.lastIndex
+  }
+
+  // 添加剩余的文本
+  if (lastIndex < content.length) {
+    parts.push({
+      type: 'text',
+      text: content.slice(lastIndex)
+    })
+  }
+
+  return parts
 }
 </script>
 
@@ -82,7 +146,17 @@ const toggleComment = (messageId: string | number) => {
               <span class="text-sm font-medium text-gray-700">{{ message.author?.name }}</span>
               <span class="text-[11px] text-gray-500">{{ formatTimestamp(message.createdAt) }}</span>
             </div>
-            <p class="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">{{ message.content }}</p>
+            <p class="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">
+              <template v-for="(item, index) in parseContent(message.content)" :key="index">
+                <img v-if="item.type === 'emoji'"
+                     :src="getEmojiSrc(item.code)"
+                     class="inline-block h-5 w-5 align-text-bottom"
+                     :alt="item.code"
+                     loading="lazy"
+                     decoding="async">
+                <span v-else>{{ item.text }}</span>
+              </template>
+            </p>
           </div>
         </div>
 
@@ -129,7 +203,17 @@ const toggleComment = (messageId: string | number) => {
                 <span class="text-sm font-medium text-gray-700">{{ comment.author?.name }}</span>
                 <span class="text-[11px] text-gray-500">{{ formatTimestamp(comment.createdAt) }}</span>
               </div>
-              <p class="text-gray-600 text-sm mt-0.5">{{ comment.content }}</p>
+              <p class="text-gray-600 text-sm mt-0.5">
+                <template v-for="(item, index) in parseContent(comment.content)" :key="index">
+                  <img v-if="item.type === 'emoji'"
+                       :src="getEmojiSrc(item.code)"
+                       class="inline-block h-5 w-5 align-text-bottom"
+                       :alt="item.code"
+                       loading="lazy"
+                       decoding="async">
+                  <span v-else>{{ item.text }}</span>
+                </template>
+              </p>
             </div>
           </div>
         </div>
