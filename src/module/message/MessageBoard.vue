@@ -76,7 +76,7 @@ const toggleComment = (messageId: string | number) => {
         <div class="flex gap-3 items-start">
           <img :src="message.author?.avatar"
                alt="QQ Icon"
-               class="w-7 h-7 rounded-full ring-1 ring-gray-300 p-0.5" />
+               class="w-7 h-7 rounded-full ring-1 ring-gray-300" />
           <div class="flex-1">
             <div class="flex items-center gap-2 mb-1">
               <span class="text-sm font-medium text-gray-700">{{ message.author?.name }}</span>

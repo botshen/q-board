@@ -40,7 +40,7 @@ const messageContent = ref('')
 <template>
   <main class="h-screen flex flex-col overflow-hidden bg-gradient-to-b from-gray-100 to-gray-200">
     <div class="snowflakes" aria-hidden="true">
-      <div v-for="n in 10" :key="n" class="snowflake">❄</div>
+      <div v-for="n in 20" :key="n" class="snowflake">❄</div>
     </div>
     <div class="bg-white/90 backdrop-blur-sm z-20 py-1">
       <div class="mx-auto px-3">
@@ -149,7 +149,7 @@ const messageContent = ref('')
 <style scoped>
 .snowflakes {
   position: fixed;
-  top: 0;
+  top: -10vh;
   left: 0;
   right: 0;
   bottom: 0;
@@ -158,30 +158,44 @@ const messageContent = ref('')
 }
 
 .snowflake {
-  @apply fixed text-blue-400 drop-shadow-sm;
-  filter: drop-shadow(0 0 2px rgba(96, 165, 250, 0.5));
+  @apply fixed text-blue-400/40 drop-shadow-sm text-base;
+  filter: drop-shadow(0 0 2px rgba(96, 165, 250, 0.3));
   animation: snowfall linear infinite;
+  will-change: transform;
 }
 
-
-.snowflake:nth-child(1) { left: 10%; animation-duration: 10s; animation-delay: -2s; }
-.snowflake:nth-child(2) { left: 20%; animation-duration: 12s; animation-delay: -1s; }
-.snowflake:nth-child(3) { left: 30%; animation-duration: 8s; animation-delay: -3s; }
-.snowflake:nth-child(4) { left: 40%; animation-duration: 15s; animation-delay: -4s; }
-.snowflake:nth-child(5) { left: 50%; animation-duration: 11s; animation-delay: -5s; }
-.snowflake:nth-child(6) { left: 60%; animation-duration: 9s; animation-delay: -1.5s; }
-.snowflake:nth-child(7) { left: 70%; animation-duration: 13s; animation-delay: -2.5s; }
-.snowflake:nth-child(8) { left: 80%; animation-duration: 14s; animation-delay: -3.5s; }
-.snowflake:nth-child(9) { left: 90%; animation-duration: 10s; animation-delay: -4.5s; }
-.snowflake:nth-child(10) { left: 95%; animation-duration: 16s; animation-delay: -2.8s; }
+.snowflake:nth-child(1) { left: 7%; animation-duration: 12s; animation-delay: -1.5s; }
+.snowflake:nth-child(2) { left: 23%; animation-duration: 14.5s; animation-delay: -2s; }
+.snowflake:nth-child(3) { left: 35%; animation-duration: 11s; animation-delay: -3.5s; }
+.snowflake:nth-child(4) { left: 42%; animation-duration: 15.5s; animation-delay: -2.8s; }
+.snowflake:nth-child(5) { left: 58%; animation-duration: 13.5s; animation-delay: -4s; }
+.snowflake:nth-child(6) { left: 64%; animation-duration: 12.8s; animation-delay: -1.2s; }
+.snowflake:nth-child(7) { left: 75%; animation-duration: 14.2s; animation-delay: -3.2s; }
+.snowflake:nth-child(8) { left: 82%; animation-duration: 13.8s; animation-delay: -2.4s; }
+.snowflake:nth-child(9) { left: 88%; animation-duration: 11.5s; animation-delay: -3.8s; }
+.snowflake:nth-child(10) { left: 93%; animation-duration: 15.2s; animation-delay: -2.2s; }
+.snowflake:nth-child(11) { left: 15%; animation-duration: 13.2s; animation-delay: -1.8s; }
+.snowflake:nth-child(12) { left: 28%; animation-duration: 14.8s; animation-delay: -3.3s; }
+.snowflake:nth-child(13) { left: 45%; animation-duration: 12.5s; animation-delay: -2.5s; }
+.snowflake:nth-child(14) { left: 52%; animation-duration: 13.7s; animation-delay: -4.2s; }
+.snowflake:nth-child(15) { left: 68%; animation-duration: 11.8s; animation-delay: -3.7s; }
+.snowflake:nth-child(16) { left: 73%; animation-duration: 15.8s; animation-delay: -1.9s; }
+.snowflake:nth-child(17) { left: 85%; animation-duration: 12.9s; animation-delay: -2.8s; }
+.snowflake:nth-child(18) { left: 91%; animation-duration: 14.3s; animation-delay: -3.4s; }
+.snowflake:nth-child(19) { left: 95%; animation-duration: 13.4s; animation-delay: -2.7s; }
+.snowflake:nth-child(20) { left: 97%; animation-duration: 12.2s; animation-delay: -4.1s; }
 
 @keyframes snowfall {
   0% {
-    transform: translateY(-10vh) rotate(0deg);
-    opacity: 1;
+    transform: translateY(0) rotate(0deg) scale(0.7);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(50vh) rotate(180deg) scale(0.9);
+    opacity: 0.9;
   }
   100% {
-    transform: translateY(100vh) rotate(360deg);
+    transform: translateY(110vh) rotate(360deg) scale(0.7);
     opacity: 0;
   }
 }
