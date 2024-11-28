@@ -37,10 +37,10 @@ const emojiMap = new Map<string, string>(
 )
 
 // 修改获取表情图片路径的方法
-const getEmojiSrc = (code: string) => {
-  if (!code) return ''
+const getEmojiSrc = (code: string): string => {
+  if (!code) return '/path/to/default-emoji.png'
   // 尝试直接获取或添加 @2x 后缀获取
-  return emojiMap.get(code) || emojiMap.get(`${code}@2x`)
+  return emojiMap.get(code) || emojiMap.get(`${code}@2x`) || '/path/to/default-emoji.png'
 }
 
 onMounted(() => {
@@ -149,7 +149,7 @@ const parseContent = (content: string) => {
             <p class="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">
               <template v-for="(item, index) in parseContent(message.content)" :key="index">
                 <img v-if="item.type === 'emoji'"
-                     :src="getEmojiSrc(item.code)"
+                     :src="getEmojiSrc(item.code!)"
                      class="inline-block h-5 w-5 align-text-bottom"
                      :alt="item.code"
                      loading="lazy"
@@ -206,7 +206,7 @@ const parseContent = (content: string) => {
               <p class="text-gray-600 text-sm mt-0.5">
                 <template v-for="(item, index) in parseContent(comment.content)" :key="index">
                   <img v-if="item.type === 'emoji'"
-                       :src="getEmojiSrc(item.code)"
+                       :src="getEmojiSrc(item.code!)"
                        class="inline-block h-5 w-5 align-text-bottom"
                        :alt="item.code"
                        loading="lazy"
