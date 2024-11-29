@@ -105,7 +105,7 @@ const parseContent = (content: string) => {
 </script>
 
 <template>
-  <div class="w-full mx-auto bg-[#f8f8f8]">
+  <div class="w-full mx-auto bg-[#f8f8f8] font-wenkai">
     <!-- 发布按钮 -->
     <div class="flex justify-center mb-4" v-if="false">
       <button @click="isDialogOpen = true"
@@ -143,10 +143,10 @@ const parseContent = (content: string) => {
                class="w-7 h-7 rounded-full ring-1 ring-gray-300" />
           <div class="flex-1">
             <div class="flex items-center gap-2 mb-1">
-              <span class="text-sm font-medium text-gray-700">{{ message.author?.name }}</span>
+              <span class="text-sm font-bold text-gray-900">{{ message.author?.name }}</span>
               <span class="text-[11px] text-gray-500">{{ formatTimestamp(message.createdAt) }}</span>
             </div>
-            <p class="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap break-all">
+            <p class="text-gray-900 text-sm leading-relaxed whitespace-pre-wrap break-all font-bold">
               <template v-for="(item, index) in parseContent(message.content)" :key="index">
                 <img v-if="item.type === 'emoji'"
                      :src="getEmojiSrc(item.code!)"
@@ -197,16 +197,16 @@ const parseContent = (content: string) => {
           <!-- 评论列表移到按钮和输入框后面 -->
           <div v-for="comment in message.comments"
                :key="comment.id"
-               class="bg-[#f7f7f7] rounded-lg p-2.5 flex gap-2   ">
+               class="bg-gray-100 rounded-lg p-2.5 flex gap-2">
             <img :src="comment.author?.avatar"
                  alt="QQ Icon"
                  class="w-5 h-5 rounded-full ring-1 ring-gray-300/50" />
             <div>
               <div class="flex items-center gap-2">
-                <span class="text-sm font-medium text-gray-700">{{ comment.author?.name }}</span>
+                <span class="text-sm font-bold text-gray-900">{{ comment.author?.name }}</span>
                 <span class="text-[11px] text-gray-500">{{ formatTimestamp(comment.createdAt) }}</span>
               </div>
-              <p class="text-gray-600 text-sm mt-0.5 break-all">
+              <p class="text-gray-900 text-sm mt-0.5 break-all font-bold">
                 <template v-for="(item, index) in parseContent(comment.content)" :key="index">
                   <img v-if="item.type === 'emoji'"
                        :src="getEmojiSrc(item.code!)"
