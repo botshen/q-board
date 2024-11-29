@@ -40,36 +40,36 @@ const messageContent = ref('')
 <template>
   <main class="h-screen flex flex-col overflow-hidden bg-[#f8f8f8] from-gray-100 to-gray-200">
     <div class="snowflakes" aria-hidden="true">
-      <div v-for="n in 20" :key="n" class="snowflake">❄</div>
+      <div v-for="n in 30" :key="n" class="snowflake">❄</div>
     </div>
     <div class="  backdrop-blur-sm z-20 py-1">
-      <div class="mx-auto px-3">
+      <div class="mx-auto px-4">
         <div class="flex items-center gap-2">
           <div class="flex items-center gap-1">
             <img
               src="/logo.webp"
               alt="QQ Icon"
-              class="w-4 h-4 shadow-sm"
+              class="w-6 h-6"
             />
             <span>好久不见</span>
             <img @click="toggleMe" :src="me.avatar" class="w-6 h-6 rounded-full" />
           </div>
           <button
             @click="onAddMessage"
-            class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-gradient-to-r from-blue-500 to-blue-400 text-white text-sm shadow-sm hover:shadow-md transition-all"
+            class="flex items-center gap-1 px-2 py-1 rounded-full hover:bg-gray-100 text-gray-600 transition-all"
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
             </svg>
-            写留言
+            <span class="text-sm">留一句吧</span>
           </button>
           <div class="flex items-center gap-2 ml-auto">
             <button
               @click="togglePlay"
-              class="relative flex items-center justify-center w-7 h-7 rounded-full bg-blue-50 shadow-sm transition-all duration-200"
+              class="relative flex items-center justify-center w-7 h-7 rounded-full bg-[#31c27c]/10 shadow-sm transition-all duration-200"
               :class="{ 'animate-button-pulse': !isPlaying }"
             >
-              <div class="w-3.5 h-3.5 rounded-full bg-blue-500 flex items-center justify-center">
+              <div class="w-3.5 h-3.5 rounded-full bg-[#31c27c] flex items-center justify-center">
                 <svg
                   v-if="!isPlaying"
                   xmlns="http://www.w3.org/2000/svg"
@@ -93,10 +93,10 @@ const messageContent = ref('')
 
             <div v-if="isPlaying" class="music-waves-container">
               <div class="music-waves">
-                <span class="bg-blue-500"></span>
-                <span class="bg-blue-500"></span>
-                <span class="bg-blue-500"></span>
-                <span class="bg-blue-500"></span>
+                <span class="bg-[#31c27c]"></span>
+                <span class="bg-[#31c27c]"></span>
+                <span class="bg-[#31c27c]"></span>
+                <span class="bg-[#31c27c]"></span>
               </div>
             </div>
           </div>
@@ -120,23 +120,23 @@ const messageContent = ref('')
           <form method="dialog" class="space-y-2" @submit.prevent="onSubmitMessage">
             <textarea
               rows="4"
-              placeholder="写下你想说的话..."
+              placeholder="来都来了,不说两句吗?"
               v-model="messageContent"
-              class="p-2 w-full rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+              class="p-2 w-full rounded-lg border !border-gray-200 focus:border-gray-400 focus:ring-gray-400/30"
             ></textarea>
             <div class="flex justify-end gap-2">
               <button
                 type="button"
                 @click="messageDialog?.close()"
-                class="px-4 py-2 text-sm text-gray-900"
+                class="px-4 py-2 text-sm text-gray-600"
               >
-                再想想
+                下次一定
               </button>
               <button
                 type="submit"
-                class="px-4 py-2 text-sm text-white bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg"
+                class="px-4 py-2 text-sm text-gray-600 rounded-lg border border-gray-200"
               >
-                留一句
+               发送
               </button>
             </div>
           </form>
@@ -158,8 +158,8 @@ const messageContent = ref('')
 }
 
 .snowflake {
-  @apply fixed text-blue-400/40 drop-shadow-sm text-base;
-  filter: drop-shadow(0 0 2px rgba(96, 165, 250, 0.3));
+  @apply fixed text-blue-400/40 drop-shadow-sm text-xl;
+  filter: drop-shadow(0 0 3px rgba(96, 165, 250, 0.4));
   animation: snowfall linear infinite;
   will-change: transform;
 }
@@ -184,18 +184,28 @@ const messageContent = ref('')
 .snowflake:nth-child(18) { left: 91%; animation-duration: 14.3s; animation-delay: -3.4s; }
 .snowflake:nth-child(19) { left: 95%; animation-duration: 13.4s; animation-delay: -2.7s; }
 .snowflake:nth-child(20) { left: 97%; animation-duration: 12.2s; animation-delay: -4.1s; }
+.snowflake:nth-child(21) { left: 12%; animation-duration: 13.1s; animation-delay: -2.3s; }
+.snowflake:nth-child(22) { left: 33%; animation-duration: 14.7s; animation-delay: -3.1s; }
+.snowflake:nth-child(23) { left: 48%; animation-duration: 12.3s; animation-delay: -1.7s; }
+.snowflake:nth-child(24) { left: 62%; animation-duration: 15.4s; animation-delay: -2.9s; }
+.snowflake:nth-child(25) { left: 77%; animation-duration: 13.9s; animation-delay: -3.5s; }
+.snowflake:nth-child(26) { left: 89%; animation-duration: 12.7s; animation-delay: -1.4s; }
+.snowflake:nth-child(27) { left: 18%; animation-duration: 14.1s; animation-delay: -2.6s; }
+.snowflake:nth-child(28) { left: 37%; animation-duration: 13.3s; animation-delay: -3.9s; }
+.snowflake:nth-child(29) { left: 56%; animation-duration: 15.6s; animation-delay: -2.1s; }
+.snowflake:nth-child(30) { left: 81%; animation-duration: 12.4s; animation-delay: -3.6s; }
 
 @keyframes snowfall {
   0% {
-    transform: translateY(0) rotate(0deg) scale(0.7);
-    opacity: 0.8;
-  }
-  50% {
-    transform: translateY(50vh) rotate(180deg) scale(0.9);
+    transform: translateY(0) rotate(0deg) scale(0.8);
     opacity: 0.9;
   }
+  50% {
+    transform: translateY(50vh) rotate(180deg) scale(1);
+    opacity: 1;
+  }
   100% {
-    transform: translateY(110vh) rotate(360deg) scale(0.7);
+    transform: translateY(110vh) rotate(360deg) scale(0.8);
     opacity: 0;
   }
 }
@@ -246,15 +256,15 @@ const messageContent = ref('')
 @keyframes button-pulse {
   0% {
     transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.3);
+    box-shadow: 0 0 0 0 rgba(46, 213, 115, 0.3);
   }
   70% {
     transform: scale(1.05);
-    box-shadow: 0 0 0 8px rgba(59, 130, 246, 0);
+    box-shadow: 0 0 0 8px rgba(46, 213, 115, 0);
   }
   100% {
     transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+    box-shadow: 0 0 0 0 rgba(46, 213, 115, 0);
   }
 }
 
@@ -277,6 +287,16 @@ dialog {
 
 .animate-fade-in {
   animation: fade-in 0.2s ease-out;
+}
+
+/* 添加以下CSS来隐藏滚动条 */
+.flex-1.overflow-y-auto {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.flex-1.overflow-y-auto::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
 }
 </style>
 

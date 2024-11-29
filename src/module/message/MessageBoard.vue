@@ -175,18 +175,22 @@ const parseContent = (content: string) => {
           <form v-if="activeMessageId === message.id"
                 @submit.prevent="createComment(message.id)"
                 class="mb-2">
-            <div class="flex gap-2">
-              <input
+            <div class="flex gap-2 items-center">
+              <textarea
                 v-model="commentContent"
-                type="text"
-                placeholder="写下你的评论..."
-                class="flex-1 border border-gray-200 rounded-full px-4 py-2 text-sm  placeholder-gray-400
-                       focus:outline-none focus:ring-1 focus:ring-gray-400/30 focus:border-gray-400"
-              />
+                placeholder="来都来了,不说两句吗?"
+                class="flex-1 border border-gray-200 rounded-lg px-4 py-2 text-sm placeholder-gray-400
+                       focus:outline-none focus:ring-1 focus:ring-gray-400/30 focus:border-gray-400
+                       resize-none min-h-[40px] max-h-32"
+
+              ></textarea>
               <button type="submit"
-                      class="px-4 py-2 bg-amber-900 text-amber-50 rounded-full text-sm transition-colors shadow-sm">
-                发送
+                      class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                </svg>
               </button>
+
             </div>
           </form>
 
