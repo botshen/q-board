@@ -146,7 +146,7 @@ const parseContent = (content: string) => {
               <span class="text-sm font-medium text-gray-700">{{ message.author?.name }}</span>
               <span class="text-[11px] text-gray-500">{{ formatTimestamp(message.createdAt) }}</span>
             </div>
-            <p class="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">
+            <p class="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap break-all">
               <template v-for="(item, index) in parseContent(message.content)" :key="index">
                 <img v-if="item.type === 'emoji'"
                      :src="getEmojiSrc(item.code!)"
@@ -203,7 +203,7 @@ const parseContent = (content: string) => {
                 <span class="text-sm font-medium text-gray-700">{{ comment.author?.name }}</span>
                 <span class="text-[11px] text-gray-500">{{ formatTimestamp(comment.createdAt) }}</span>
               </div>
-              <p class="text-gray-600 text-sm mt-0.5">
+              <p class="text-gray-600 text-sm mt-0.5 break-all">
                 <template v-for="(item, index) in parseContent(comment.content)" :key="index">
                   <img v-if="item.type === 'emoji'"
                        :src="getEmojiSrc(item.code!)"
