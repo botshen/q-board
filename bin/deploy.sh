@@ -38,6 +38,14 @@ server {
         index index.html index.htm;
         try_files \$uri \$uri/ /index.html;
     }
+
+    location /api/ {
+        proxy_pass http://mangosteen-prod-1:3000/;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+    }
 }
 EOF
 
@@ -61,10 +69,15 @@ ssh $USER@$SERVER "cd $DEPLOY_PATH && \
     tar -xzf dist.tar.gz && \
     rm dist.tar.gz"
 
-title '使用docker启动nginx 配置SSL'
+title '创建 Docker 网络'
+ssh $USER@$SERVER "docker network create app-network || true && \
+    docker network connect app-network mangosteen-prod-1 || true"
+
+title '修改 nginx 配置并重启'
 ssh $USER@$SERVER "docker stop nginx || true && \
     docker rm nginx || true && \
     docker run -d --name nginx \
+    --network app-network \
     -p 80:80 \
     -p 443:443 \
     -v $DEPLOY_PATH/dist:/usr/share/nginx/html \
