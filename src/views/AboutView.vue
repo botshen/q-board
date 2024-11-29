@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-2xl mx-auto bg-white/90 backdrop-blur-sm relative z-10 p-6 md:p-8 rounded-lg rounded-t-none  ">
+  <div class="max-w-2xl mx-auto  backdrop-blur-sm relative z-10 p-6 md:p-8 rounded-lg rounded-t-none  ">
     <button @click="onBack"
             class="px-4 py-2 bg-gradient-to-r from-gray-700 to-gray-600 text-gray-50 rounded-full
                    text-sm shadow-md flex items-center gap-2 active:scale-95 transition-transform">

@@ -105,11 +105,11 @@ const parseContent = (content: string) => {
 </script>
 
 <template>
-  <div class="w-full mx-auto">
+  <div class="w-full mx-auto bg-[#f8f8f8]">
     <!-- 发布按钮 -->
     <div class="flex justify-center mb-4" v-if="false">
       <button @click="isDialogOpen = true"
-        class="w-96 px-4 py-2.5 rounded-full bg-amber-900 text-amber-50 text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md hover:bg-amber-800">
+        class="w-96 px-4 py-2.5 rounded-full bg-amber-900 text-amber-50 text-sm font-medium shadow-sm transition-all duration-200">
         发布新留言
       </button>
     </div>
@@ -136,7 +136,7 @@ const parseContent = (content: string) => {
     <div class="space-y-3">
       <div v-for="(message, index) in messages"
            :key="index"
-           class="bg-gray-50/95 p-4 rounded-lg shadow-md border border-gray-200/80 transition-all hover:shadow-lg">
+           class="bg-white p-4 rounded-lg transition-all">
         <div class="flex gap-3 items-start">
           <img :src="message.author?.avatar"
                alt="QQ Icon"
@@ -164,7 +164,7 @@ const parseContent = (content: string) => {
         <div class="ml-10 mt-2 space-y-2">
           <!-- 评论按钮移到这里，在评论列表前面 -->
           <button @click="toggleComment(message.id)"
-                  class="text-xs text-gray-500 hover:text-gray-700 flex items-center gap-1">
+                  class="text-xs text-gray-500 flex items-center gap-1">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
@@ -180,12 +180,11 @@ const parseContent = (content: string) => {
                 v-model="commentContent"
                 type="text"
                 placeholder="写下你的评论..."
-                class="flex-1 border border-gray-200 rounded-full px-4 py-2 text-sm bg-white/90 placeholder-gray-400
+                class="flex-1 border border-gray-200 rounded-full px-4 py-2 text-sm  placeholder-gray-400
                        focus:outline-none focus:ring-1 focus:ring-gray-400/30 focus:border-gray-400"
               />
               <button type="submit"
-                      class="px-4 py-2 bg-amber-900 text-amber-50 rounded-full text-sm hover:bg-amber-800
-                             transition-colors shadow-sm hover:shadow">
+                      class="px-4 py-2 bg-amber-900 text-amber-50 rounded-full text-sm transition-colors shadow-sm">
                 发送
               </button>
             </div>
@@ -194,7 +193,7 @@ const parseContent = (content: string) => {
           <!-- 评论列表移到按钮和输入框后面 -->
           <div v-for="comment in message.comments"
                :key="comment.id"
-               class="bg-gray-100/90 rounded-lg p-2.5 flex gap-2 border border-gray-200/50">
+               class="bg-[#f7f7f7] rounded-lg p-2.5 flex gap-2   ">
             <img :src="comment.author?.avatar"
                  alt="QQ Icon"
                  class="w-5 h-5 rounded-full ring-1 ring-gray-300/50" />

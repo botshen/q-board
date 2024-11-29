@@ -38,11 +38,11 @@ const messageContent = ref('')
 </script>
 
 <template>
-  <main class="h-screen flex flex-col overflow-hidden bg-gradient-to-b from-gray-100 to-gray-200">
+  <main class="h-screen flex flex-col overflow-hidden bg-[#f8f8f8] from-gray-100 to-gray-200">
     <div class="snowflakes" aria-hidden="true">
       <div v-for="n in 20" :key="n" class="snowflake">❄</div>
     </div>
-    <div class="bg-white/90 backdrop-blur-sm z-20 py-1">
+    <div class="  backdrop-blur-sm z-20 py-1">
       <div class="mx-auto px-3">
         <div class="flex items-center gap-2">
           <div class="flex items-center gap-1">
@@ -104,10 +104,10 @@ const messageContent = ref('')
       </div>
     </div>
     <div class="flex-1 overflow-y-auto">
-      <div class="mx-auto bg-white/90 backdrop-blur-sm relative z-10 p-2 pt-0 shadow-lg mt-0">
-        <div class="border-t border-gray-200/50 pt-2">
+      <div class="mx-auto  backdrop-blur-sm relative z-10 p-4 pt-0   mt-0">
+
           <MessageBoard />
-        </div>
+
       </div>
     </div>
 
